@@ -1,6 +1,4 @@
-package server;
-
-import thread.ClientThread;
+package server_client1;
 
 import java.io.*;
 import java.net.ServerSocket;

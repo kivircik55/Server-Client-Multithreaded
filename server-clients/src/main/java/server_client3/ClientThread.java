@@ -1,4 +1,4 @@
-package thread;
+package server_client3;
 
 import java.io.*;
 import java.net.Socket;
