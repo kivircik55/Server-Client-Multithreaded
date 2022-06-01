@@ -6,10 +6,8 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        int port = Integer.parseInt(args[0]);
 
-        try (Socket socket = new Socket("localhost", port)) {
-
+        try (Socket socket = new Socket("localhost", 1234)) {
 
             InputStream inputStream = socket.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
