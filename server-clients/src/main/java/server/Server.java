@@ -10,7 +10,9 @@ public class Server {
 
     public static void main(String[] args) {
 
-        try (ServerSocket server = new ServerSocket(1234)) {
+        int port = Integer.parseInt(args[0]);
+
+        try (ServerSocket server = new ServerSocket(port)) {
             int threadId = 0;
 
             server.setReuseAddress(true);

@@ -6,7 +6,9 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        try (Socket socket = new Socket("localhost", 1234)) {
+        int port = Integer.parseInt(args[0]);
+
+        try (Socket socket = new Socket("localhost", port)) {
 
 
             InputStream inputStream = socket.getInputStream();
