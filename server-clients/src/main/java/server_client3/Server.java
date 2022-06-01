@@ -8,9 +8,7 @@ public class Server {
 
     public static void main(String[] args) {
 
-        int port = Integer.parseInt(args[0]);
-
-        try (ServerSocket server = new ServerSocket(port)) {
+        try (ServerSocket server = new ServerSocket(6666)) {
             int threadId = 0;
 
             server.setReuseAddress(true);
