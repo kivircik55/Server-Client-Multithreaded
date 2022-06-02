@@ -2,14 +2,17 @@ package server_client1;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
 
 public class ClientThread implements Runnable{
     private final Socket clientSocket;
     private final int threadId;
+    private boolean isAlive;
 
     public ClientThread(Socket serverSocket, int threadId) {
         this.clientSocket = serverSocket;
         this.threadId = threadId;
+        this.isAlive = true;
     }
 
     @Override
@@ -33,8 +36,10 @@ public class ClientThread implements Runnable{
                 System.out.println(
                         " Client #"+ this.threadId+" with IP : "+ ip +" > "+line);
                 printWriter.println("Server > Message of Client #"+this.threadId+ " received");
+
             }
             System.out.println("Connection to Client #"+ this.threadId+" has been closed");
+            this.isAlive = false;
             clientSocket.close();
         }
         catch (IOException e) {

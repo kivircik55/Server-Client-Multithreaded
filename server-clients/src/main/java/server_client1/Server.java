@@ -7,10 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Server{
+    private static final Map<Integer, Socket> listOfClients = new HashMap<>();
+
+    public void removeFromLists(int clientId){
+        listOfClients.remove(clientId);
+    }
 
     public static void main(String[] args) {
 
-        Map<Integer, Socket> listOfSockets = new HashMap<>();
+        //Map<Integer, Socket> listOfClients= new HashMap<>();
 
         try (ServerSocket server = new ServerSocket(1234)) {
             int threadId = 0;
@@ -31,6 +36,12 @@ public class Server{
                         = new ClientThread(client, threadId);
 
                 new Thread(clientSock).start();
+                listOfClients.put(threadId, client);
+
+
+                listOfClients.entrySet().forEach(entry ->{
+                    System.out.println("Server clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort());
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
