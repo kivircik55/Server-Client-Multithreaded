@@ -12,13 +12,6 @@ public class Client {
 
         try (Socket socket = new Socket("localhost", 1027)) {
 
-            /*InputStream inputStream = socket.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            OutputStream outputStream = socket.getOutputStream();
-            PrintWriter printWriter = new PrintWriter(outputStream, true);
-            */
-
             Scanner scanner = new Scanner(System.in);
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());

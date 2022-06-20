@@ -12,7 +12,7 @@ public class InteractWithClientsImpl implements  InterfaceInteractWithClients{
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\nSERVER CLIENT LIST\n");
         this.server.listOfClients.entrySet().forEach(entry ->{
-            stringBuilder.append("   Server > Clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort());
+            stringBuilder.append("   Server > Clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort()+"\n");
         });
         stringBuilder.append("\n");
         return stringBuilder.toString();
