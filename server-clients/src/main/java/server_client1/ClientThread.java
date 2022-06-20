@@ -38,7 +38,7 @@ public class ClientThread implements Runnable{
             */
 
                     dataOutputStream.writeUTF("Server > Welcome on the server !\n" +
-                            "Server > What do you want ? [Info]\n" +
+                            "Server > What do you want ? [Clients]\n" +
                             "Server > Type EXIT to leave the server ...");
                     //getting ip of the client
                     //String ip = clientSocket.getRemoteSocketAddress().toString();
@@ -57,11 +57,10 @@ public class ClientThread implements Runnable{
                     }
 
                     switch (receivedMessage) {
-                        case "Info":
-                            toSendMessage = "Server > test ...";
+                        case "Clients":
+                            toSendMessage = server.messageToSendToAllClients();
                             dataOutputStream.writeUTF(toSendMessage);
                             break;
-
                         default:
                             dataOutputStream.writeUTF("Invalid output");
                     }

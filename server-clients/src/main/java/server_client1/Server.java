@@ -12,7 +12,7 @@ public class Server{
 
     public static void main(String[] args) {
         Server server = new Server();
-        
+
         try (ServerSocket serverSocket = new ServerSocket(1027)) {
             int threadId = 0;
 
@@ -53,5 +53,15 @@ public class Server{
         System.out.println("   Deleting client at ThreadId#"+threadId);
         listOfClients.remove(threadId);
         System.out.println("   Client #"+threadId+" has been deleted");
+    }
+
+    public synchronized String messageToSendToAllClients(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\nSERVER CLIENT LIST\n");
+        listOfClients.entrySet().forEach(entry ->{
+            stringBuilder.append("   Server > Clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort());
+        });
+        stringBuilder.append("\n");
+        return stringBuilder.toString();
     }
 }
