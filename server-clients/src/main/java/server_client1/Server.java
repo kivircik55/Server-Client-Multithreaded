@@ -5,8 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 public class Server{
+    private static final Vector<ClientThread> connectedClients = new Vector<>();
     private static final Map<Integer, Socket> listOfClients = new HashMap<>();
 
     public void removeFromLists(int clientId){
@@ -17,7 +19,7 @@ public class Server{
 
         //Map<Integer, Socket> listOfClients= new HashMap<>();
 
-        try (ServerSocket server = new ServerSocket(1234)) {
+        try (ServerSocket server = new ServerSocket(1027)) {
             int threadId = 0;
 
             server.setReuseAddress(true);
@@ -36,6 +38,9 @@ public class Server{
                         = new ClientThread(client, threadId);
 
                 new Thread(clientSock).start();
+
+                connectedClients.add(clientSock);
+
                 listOfClients.put(threadId, client);
 
 
