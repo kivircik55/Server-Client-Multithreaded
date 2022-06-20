@@ -3,6 +3,7 @@ package server_client1;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -11,27 +12,42 @@ public class Client {
 
         try (Socket socket = new Socket("localhost", 1027)) {
 
-            InputStream inputStream = socket.getInputStream();
+            /*InputStream inputStream = socket.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter printWriter = new PrintWriter(outputStream, true);
+            */
 
             Scanner scanner = new Scanner(System.in);
+
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
 
             String line = null;
 
-            while (!"exit".equalsIgnoreCase(line)) {
+            while (true) {
 
+                System.out.println(dataInputStream.readUTF());
                 line = scanner.nextLine();
 
-                printWriter.println(line);
+                dataOutputStream.writeUTF(line);
 
-                String serverMessage = bufferedReader.readLine();
+                if (line.equals("Exit")){
+                    System.out.println("Closing this connection : " + socket);
+                    socket.close();
+                    System.out.println("Connection closed");
+                    break;
+                }
 
-                System.out.println(serverMessage);
+                String clientMessage = dataInputStream.readUTF();
+
+                System.out.println(clientMessage);
             }
+            scanner.close();
+            dataInputStream.close();
+            dataOutputStream.close();
 
         }
         catch (IOException e) {

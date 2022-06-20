@@ -8,41 +8,37 @@ import java.util.Map;
 import java.util.Vector;
 
 public class Server{
-    private static final Vector<ClientThread> connectedClients = new Vector<>();
     private static final Map<Integer, Socket> listOfClients = new HashMap<>();
 
-    public void removeFromLists(int clientId){
-        listOfClients.remove(clientId);
-    }
-
     public static void main(String[] args) {
-
-        //Map<Integer, Socket> listOfClients= new HashMap<>();
-
-        try (ServerSocket server = new ServerSocket(1027)) {
+        Server server = new Server();
+        
+        try (ServerSocket serverSocket = new ServerSocket(1027)) {
             int threadId = 0;
 
-            server.setReuseAddress(true);
+            serverSocket.setReuseAddress(true);
             System.out.println("Server > Waiting for connections ...");
 
+            Socket client = null;
             while (true) {
 
-                Socket client = server.accept();
+                client = serverSocket.accept();
 
                 System.out.println("Server > New client " + client.getRemoteSocketAddress().toString() + " connected at "
                         + client.getInetAddress()
                         .getHostAddress());
 
                 threadId++;
+
+                DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
+
                 ClientThread clientSock
-                        = new ClientThread(client, threadId);
+                        = new ClientThread(client, threadId, dataInputStream, dataOutputStream, server);
 
                 new Thread(clientSock).start();
 
-                connectedClients.add(clientSock);
-
                 listOfClients.put(threadId, client);
-
 
                 listOfClients.entrySet().forEach(entry ->{
                     System.out.println("Server clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort());
@@ -51,5 +47,11 @@ public class Server{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized void deleteClient(int threadId){
+        System.out.println("   Deleting client at ThreadId#"+threadId);
+        listOfClients.remove(threadId);
+        System.out.println("   Client #"+threadId+" has been deleted");
     }
 }
