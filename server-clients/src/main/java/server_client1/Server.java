@@ -5,10 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 public class Server{
-    private static final Map<Integer, Socket> listOfClients = new HashMap<>();
+    static final Map<Integer, Socket> listOfClients = new HashMap<>();
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -32,9 +31,10 @@ public class Server{
 
                 DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
+                InterfaceInteractWithClients interactWithClients = new InteractWithClientsImpl(server);
 
                 ClientThread clientSock
-                        = new ClientThread(client, threadId, dataInputStream, dataOutputStream, server);
+                        = new ClientThread(client, threadId, dataInputStream, dataOutputStream, server, interactWithClients);
 
                 new Thread(clientSock).start();
 
@@ -47,21 +47,5 @@ public class Server{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public synchronized void deleteClient(int threadId){
-        System.out.println("   Deleting client at ThreadId#"+threadId);
-        listOfClients.remove(threadId);
-        System.out.println("   Client #"+threadId+" has been deleted");
-    }
-
-    public synchronized String messageToSendToAllClients(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\nSERVER CLIENT LIST\n");
-        listOfClients.entrySet().forEach(entry ->{
-            stringBuilder.append("   Server > Clients list : ID#"+entry.getKey()+", Socket Port:"+entry.getValue().getPort());
-        });
-        stringBuilder.append("\n");
-        return stringBuilder.toString();
     }
 }

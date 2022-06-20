@@ -9,15 +9,17 @@ public class ClientThread implements Runnable{
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
     private final Server server;
-    private boolean isAlive;
 
-    public ClientThread(Socket serverSocket, int threadId, DataInputStream dataInputStream, DataOutputStream dataOutputStream, Server server) {
+    private InterfaceInteractWithClients interactWithClients;
+
+    public ClientThread(Socket serverSocket, int threadId, DataInputStream dataInputStream, DataOutputStream dataOutputStream,
+                        Server server, InterfaceInteractWithClients interactWithClients) {
         this.clientSocket = serverSocket;
         this.threadId = threadId;
         this.dataInputStream = dataInputStream;
         this.dataOutputStream = dataOutputStream;
         this.server = server;
-        this.isAlive = true;
+        this.interactWithClients = interactWithClients;
     }
 
     @Override
@@ -50,15 +52,14 @@ public class ClientThread implements Runnable{
                         this.clientSocket.close();
                         dataOutputStream.close();
                         dataInputStream.close();
-                        this.isAlive = false;
                         System.out.println("Connection to Client #" + this.threadId + " has been closed");
-                        server.deleteClient(this.threadId);
+                        interactWithClients.deleteClient(this.threadId);
                         break;
                     }
 
                     switch (receivedMessage) {
                         case "Clients":
-                            toSendMessage = server.messageToSendToAllClients();
+                            toSendMessage = interactWithClients.messageToSendToAllClients();
                             dataOutputStream.writeUTF(toSendMessage);
                             break;
                         default:
