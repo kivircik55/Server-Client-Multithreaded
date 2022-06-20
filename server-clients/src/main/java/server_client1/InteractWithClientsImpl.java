@@ -1,6 +1,6 @@
 package server_client1;
 
-public class InteractWithClientsImpl implements  InterfaceInteractWithClients{
+public class InteractWithClientsImpl implements InterfaceInteractWithClients{
     private Server server;
 
     public InteractWithClientsImpl(Server server) {
