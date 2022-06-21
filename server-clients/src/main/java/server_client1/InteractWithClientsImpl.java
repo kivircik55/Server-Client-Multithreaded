@@ -11,7 +11,7 @@ public class InteractWithClientsImpl implements InterfaceInteractWithClients{
     public synchronized String messageToSendToAllClients() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\nSERVER CLIENT LIST\n");
-        Server.listOfClients.forEach((key, value) -> stringBuilder.append("   Server > Clients list : ID#")
+        Server.listOfClients.forEach((key, value) -> stringBuilder.append("\t Server > Clients list : ID#")
                 .append(key)
                 .append(", Socket Port:")
                 .append(value.getPort())
@@ -22,8 +22,8 @@ public class InteractWithClientsImpl implements InterfaceInteractWithClients{
 
     @Override
     public synchronized void deleteClient(int threadId) {
-        System.out.println("   Deleting client at ThreadId#"+threadId);
+        System.out.println("\t Deleting client at ThreadId#"+threadId);
         Server.listOfClients.remove(threadId);
-        System.out.println("   Client #"+threadId+" has been deleted");
+        System.out.println("\t Client #"+threadId+" has been deleted");
     }
 }
