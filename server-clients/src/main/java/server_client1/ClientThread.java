@@ -8,7 +8,7 @@ public class ClientThread implements Runnable{
     private final int threadId;
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
-    private InterfaceInteractWithClients interactWithClients;
+    private final InterfaceInteractWithClients interactWithClients;
 
     public ClientThread(Socket serverSocket, int threadId, DataInputStream dataInputStream, DataOutputStream dataOutputStream,
                         Server server, InterfaceInteractWithClients interactWithClients) {
