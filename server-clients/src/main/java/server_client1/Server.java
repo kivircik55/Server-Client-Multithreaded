@@ -42,7 +42,6 @@ public class Server{
                 listOfClients.put(threadId, client);
 
                 listOfClients.entrySet().stream().map(entry -> "Server clients list : ID#" + entry.getKey() + ", Socket Port:" + entry.getValue().getPort()).forEach(System.out::println);
-                //listOfClients.forEach((key, value) -> System.out.println("Server clients list : ID#" + key + ", Socket Port:" + value.getPort()));
             }
         } catch (IOException e) {
             e.printStackTrace();
