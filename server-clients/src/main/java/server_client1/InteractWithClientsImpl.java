@@ -1,5 +1,7 @@
 package server_client1;
 
+import java.util.stream.Collectors;
+
 public class InteractWithClientsImpl implements InterfaceInteractWithClients{
     private final Server server;
 
@@ -11,13 +13,17 @@ public class InteractWithClientsImpl implements InterfaceInteractWithClients{
     public synchronized String messageToSendToAllClients() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\nSERVER CLIENT LIST\n");
-        Server.listOfClients.forEach((key, value) -> stringBuilder.append("\t Server > Clients list : ID#")
+
+        return Server.listOfClients.entrySet().stream().map((entry)-> stringBuilder.append("\t Server > Clients list : ID#")
+                .append(entry.getKey()+", Socket Port:"+entry.getValue().getPort()+"\n")).collect(Collectors.joining("\n"));
+
+        /*Server.listOfClients.forEach((key, value) -> stringBuilder.append("\t Server > Clients list : ID#")
                 .append(key)
                 .append(", Socket Port:")
                 .append(value.getPort())
                 .append("\n"));
         stringBuilder.append("\n");
-        return stringBuilder.toString();
+        return stringBuilder.toString();*/
     }
 
     @Override
