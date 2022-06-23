@@ -16,14 +16,6 @@ public class InteractWithClientsImpl implements InterfaceInteractWithClients{
 
         return Server.listOfClients.entrySet().stream().map((entry)-> stringBuilder.append("\t Server > Clients list : ID#")
                 .append(entry.getKey()+", Socket Port:"+entry.getValue().getPort()+"\n")).collect(Collectors.joining("\n"));
-
-        /*Server.listOfClients.forEach((key, value) -> stringBuilder.append("\t Server > Clients list : ID#")
-                .append(key)
-                .append(", Socket Port:")
-                .append(value.getPort())
-                .append("\n"));
-        stringBuilder.append("\n");
-        return stringBuilder.toString();*/
     }
 
     @Override
